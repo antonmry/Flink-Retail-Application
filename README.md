@@ -2,7 +2,7 @@
 
 The goal of this Project is to build a Streaming pipeline Using **Kafka** and **Flink**.
 
-# Scenario :
+# Scenario 
 
 Multiple Sensors/BLE beacons/Wifi Location tracking are placed through tha Mall to track Customers as they move through shops, and each 
 customer has the Mall App running in their phones, the app will then will receive signals via Bluethooth and also respond sendinf the 
