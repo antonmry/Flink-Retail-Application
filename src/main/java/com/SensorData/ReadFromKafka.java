@@ -58,9 +58,7 @@ public class ReadFromKafka {
                 FlinkKafkaProducer011.Semantic.AT_LEAST_ONCE))
                 .name("FootTraffic Sink");
 
-        //2nd query : Foot Traffic pattern- zone, very important indicator for each retail store, it gives information about under-performing areas
-
-
+        //2nd query : Foot Traffic pattern- zone, very important indicator in a retail store, it gives information about under-performing areas
 
 
         env.execute();
