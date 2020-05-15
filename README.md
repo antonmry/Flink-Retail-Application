@@ -2,6 +2,9 @@
 
 The goal of this Project is to build a Streaming pipeline Using **Kafka** and **Flink**.
 
+Mock data is generated using [kafka-connect datagen](https://github.com/confluentinc/kafka-connect-datagen).
+Flink query results will be pushed back to kafka, stored In HBase or HDFS.
+
 # Scenario 
 
 Multiple Sensors/BLE beacons/Wifi Location tracking are placed through tha Mall to track Customers as they move through shops, and each 
