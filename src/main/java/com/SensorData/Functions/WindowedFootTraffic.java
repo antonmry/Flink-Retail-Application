@@ -20,7 +20,7 @@ public class WindowedFootTraffic {
     //using java.util.Date for better readability
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss:SSS")
     private Date windowEnd;
-    private String visitor;
+    private String sensor_UID;
     private long count;
 
     public WindowedFootTraffic() {
@@ -29,11 +29,11 @@ public class WindowedFootTraffic {
     public WindowedFootTraffic(
             final Date windowStart,
             final Date windowEnd,
-            final String visitor,
+            final String sensor_UID,
             final long count) {
         this.windowStart = windowStart;
         this.windowEnd = windowEnd;
-        this.visitor = visitor;
+        this.sensor_UID = sensor_UID;
         this.count = count;
     }
 
@@ -51,6 +51,14 @@ public class WindowedFootTraffic {
 
     public void setWindowEnd(final Date windowEnd) {
         this.windowEnd = windowEnd;
+    }
+
+    public String getsensor_UID() {
+        return sensor_UID;
+    }
+
+    public void setsensor_UID(final String sensor_UID) {
+        this.sensor_UID = sensor_UID;
     }
 
     public long getCount() {
@@ -73,12 +81,12 @@ public class WindowedFootTraffic {
         return count == that.count &&
                 Objects.equals(windowStart, that.windowStart) &&
                 Objects.equals(windowEnd, that.windowEnd) &&
-                Objects.equals(visitor, that.visitor);
+                Objects.equals(sensor_UID, that.sensor_UID);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(windowStart, windowEnd, visitor, count);
+        return Objects.hash(windowStart, windowEnd, sensor_UID, count);
     }
 
     @Override
@@ -86,6 +94,7 @@ public class WindowedFootTraffic {
         final StringBuilder sb = new StringBuilder("WindowedFootTraffic {");
         sb.append("windowStart=").append(windowStart);
         sb.append(", windowEnd=").append(windowEnd);
+        sb.append(", sensor_UID='").append(sensor_UID).append('\'');
         sb.append(", numVisitors=").append(count);
         sb.append('}');
         return sb.toString();

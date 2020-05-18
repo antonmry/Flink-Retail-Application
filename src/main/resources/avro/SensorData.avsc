@@ -3,7 +3,7 @@
         "name": "SensorData",
         "type": "record",
         "fields": [
-                {"name":"Sensor_UID", "type": {
+                {"name":"sensor_UID", "type": {
                     "type":"string",
                     "LogicalType":"UUID",
                     "arg.properties":{

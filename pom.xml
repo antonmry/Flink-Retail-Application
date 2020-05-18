@@ -56,12 +56,12 @@
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-core</artifactId>
-            <version>1.5.0</version>
+            <version>1.10.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-avro</artifactId>
-            <version>1.8.2</version>
+            <version>1.10.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
@@ -70,13 +70,8 @@
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
-            <artifactId>flink-streaming-core</artifactId>
-            <version>0.9.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-clients</artifactId>
-            <version>0.9.1</version>
+            <artifactId>flink-clients_2.11</artifactId>
+            <version>1.10.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
@@ -111,7 +106,7 @@
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-connector-kafka-base_2.11</artifactId>
-            <version>1.5.0</version>
+            <version>1.10.0</version>
         </dependency>
     </dependencies>
 

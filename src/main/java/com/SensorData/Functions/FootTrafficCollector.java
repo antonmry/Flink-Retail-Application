@@ -15,12 +15,12 @@ public class FootTrafficCollector extends ProcessWindowFunction<Long, WindowedFo
 
     @Override
     public void process(
-            final String visitor,
+            final String sensor_UID,
             final Context context,
             final Iterable<Long> elements,
             final Collector<WindowedFootTraffic> out) throws Exception {
 
         Long count = elements.iterator().next();
-        out.collect(new WindowedFootTraffic(new Date(context.window().getStart()), new Date(context.window().getEnd()), visitor, count));
+        out.collect(new WindowedFootTraffic(new Date(context.window().getStart()), new Date(context.window().getEnd()), sensor_UID, count));
     }
 }
