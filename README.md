@@ -2,12 +2,15 @@
 
 The goal of this Project is to build a Streaming pipeline Using **Kafka** and **Flink**.
 
+Mock data is generated using [kafka-connect datagen](https://github.com/confluentinc/kafka-connect-datagen).
+Flink query results will be pushed back to kafka, stored In HBase or HDFS.
+
 # Scenario 
 
 Multiple Sensors/BLE beacons/Wifi Location tracking are placed through tha Mall to track Customers as they move through shops, and each 
-customer has the Mall App running in their phones, the app will then will receive signals via Bluethooth and also respond sendinf the 
+customer has the Mall App running in their phones, the app will then receive signals via Bluethooth and also respond sending the 
 customer's data back : Mac Address, IP Address, Timestamp, longitude and latitude. At the same time, Another flow of Customer Transactions
-will be sent from the POS. 
+will be also sent from the POS. 
 
 This continuous flow of sensor readings will be first pushed to Kafka, and then ingested to Flink to run customized queries on it.
 The insighits we like to get from this data are the following :
