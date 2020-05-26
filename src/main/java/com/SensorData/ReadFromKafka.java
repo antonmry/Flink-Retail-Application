@@ -77,7 +77,11 @@ public class ReadFromKafka {
         // 2nd query : In-Mall Proximity Traffic- zone, very important indicator in a retail store, it gives information about under-performing areas
 
          // create a kafka sink
-        mallFootTraffic.addSink(new FlinkKafkaProducer<>("mallFootTraficHistory", new KeyedSerializationSchemaWrapper<>(new SimpleStringSchema()), props));
+        // mallFootTraffic.addSink(new FlinkKafkaProducer<>("mallFootTraficHistory", new KeyedSerializationSchemaWrapper<>(new SimpleStringSchema()), props));
+
+        mallFootTraffic.addSink(new FlinkKafkaProducer<>("mallFootTraficHistory", new ObjSerializationSchema("mallFootTraficHistory"),
+                props, FlinkKafkaProducer.Semantic.EXACTLY_ONCE));
+
         env.execute();
 
     }
