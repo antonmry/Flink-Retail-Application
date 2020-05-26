@@ -149,7 +149,7 @@
                         <configuration>
                             <sourceDirectory>${project.basedir}/src/main/resources/avro</sourceDirectory>
                             <stringType>String</stringType>
-                            <createSetters>false</createSetters>
+                            <createSetters>true</createSetters>
                             <enableDecimalLogicalType>true</enableDecimalLogicalType>
                             <fieldVisibility>private</fieldVisibility>
                         </configuration>
