@@ -218,7 +218,7 @@ services:
       - "6123"
     ports:
       - "8089:8089"
-    command: jobmanager:
+    command: jobmanager
     environment:
       - JOB_MANAGER_RPC_ADDRESS=jobmanager
 
