@@ -11,6 +11,8 @@ import org.apache.flink.api.java.typeutils.TypeExtractor;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStream;
+import org.apache.flink.streaming.api.datastream.DataStreamSource;
+import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.timestamps.AscendingTimestampExtractor;
 import org.apache.flink.streaming.api.functions.windowing.AllWindowFunction;
@@ -18,7 +20,9 @@ import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer;
+import org.apache.flink.streaming.connectors.kafka.internals.KeyedSerializationSchemaWrapper;
 import org.apache.flink.streaming.util.serialization.DeserializationSchema;
+import org.apache.flink.streaming.util.serialization.KeyedSerializationSchema;
 import org.apache.flink.streaming.util.serialization.SimpleStringSchema;
 import org.apache.flink.util.Collector;
 
@@ -48,20 +52,18 @@ public class ReadFromKafka {
         // create a kafka Consumer
         AvroDeserializationSchema schema = new AvroDeserializationSchema(SensorData.class);
 
-        FlinkKafkaConsumer<SensorData> kafkaconsumer = new FlinkKafkaConsumer<SensorData>("Sensor-Data", schema,props);
+        //FlinkKafkaConsumer<SensorData> kafkaconsumer = new FlinkKafkaConsumer<SensorData>("Sensor-Data", schema,props);
 
-        kafkaconsumer.assignTimestampsAndWatermarks(new AscendingTimestampExtractor<SensorData>() {
+        //1st query : Mall Foot Traffic-2 hours, each customer will be identified by it's Mac address
+
+        DataStreamSource<SensorData> mallFootTraffic = env.addSource(new FlinkKafkaConsumer<SensorData>("Sensor-Data", schema,props)
+                .assignTimestampsAndWatermarks(new AscendingTimestampExtractor<SensorData>() {
             @Override
             public long extractAscendingTimestamp(SensorData element) {
                 return element.getTimestamp();
             }
-        });
-
-        //1st query : Mall Foot Traffic-2 hours, each customer will be identified by it's Mac address
-
-        DataStream<SensorData> mallFootTraffic = env.addSource(kafkaconsumer);
-
-                mallFootTraffic.timeWindowAll(Time.hours(2))
+        }));
+        mallFootTraffic.timeWindowAll(Time.hours(2))
                 .apply(new AllWindowFunction<SensorData, Tuple2<Date,Long>, TimeWindow>() {
                     @Override
                     public void apply(TimeWindow timeWindow, Iterable<SensorData> iterable, Collector<Tuple2<Date, Long>> collector) throws Exception {
@@ -71,15 +73,11 @@ public class ReadFromKafka {
                         collector.collect(new Tuple2<>(new Date(timeWindow.getEnd()), count));
                     }
                 });
-        mallFootTraffic.print();
 
         // 2nd query : In-Mall Proximity Traffic- zone, very important indicator in a retail store, it gives information about under-performing areas
 
          // create a kafka sink
-      FlinkKafkaProducer<Tuple2> kafkaproducer = new FlinkKafkaProducer<Tuple2>("mallFootTraficHistory",
-              new SimpleStringSchema()
-              , props);
-
+        mallFootTraffic.addSink(new FlinkKafkaProducer<>("mallFootTraficHistory", new KeyedSerializationSchemaWrapper<>(new SimpleStringSchema()), props));
         env.execute();
 
     }
